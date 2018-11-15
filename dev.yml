@@ -1,0 +1,23 @@
+version: '2'
+services:
+  web:
+    image: sverrisson/image-server:latest
+    depends_on:
+      - redis
+    links:
+      - redis
+    environment:
+      - NODE_ENV=production
+    ports:
+      - "3000:3000"
+    labels:
+      io.rancher.container.pull_image: always
+
+  redis:
+    image: redis:latest
+    volumes:
+      - redis:/var/lib/redis/data
+
+volumes:
+  redis:
+    driver: local

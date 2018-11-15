@@ -1,0 +1,23 @@
+version: '2'
+services:
+  web:
+    image: sverrisson/walkaboutserver
+    depends_on:
+      - sql-server
+    links:
+      - sql-server
+    environment:
+      - NODE_ENV=production
+    expose:
+      - "3000"
+    labels:
+      io.rancher.container.pull_image: always
+
+  sql-server:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    volumes:
+      - redis-cache:/var/lib/redis-cache/data
+
+volumes:
+  sql-server:
+    driver: local
