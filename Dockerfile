@@ -23,4 +23,4 @@ EXPOSE 3000
 VOLUME [ "/usr/src/app" ]
 
 #RUN npm install
-CMD ["node", "server"]
+CMD ["node", "server.js"]

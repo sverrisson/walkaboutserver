@@ -2,9 +2,9 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const Connection = require('tedious').Connection
 const Request = require('tedious').Request
-
 const fetch = require('node-fetch')
 const helmet = require('helmet')
+const {numberFormatter, objectFormatter} = require('./src/numberFormatter.js')
 
 //TODO: Store in an .env file and not shown in repo, but included here for the demo
 const config = {
@@ -52,8 +52,8 @@ function executeStatement() {
     connection.execSql(request)
 }
 
-const app = express()
-app.use(helmet())
+const server = express()
+server.use(helmet())
 // parse application/x-www-form-urlencoded
 const urlParser = bodyParser.urlencoded({ extended: false })
 // parse application/json
@@ -63,7 +63,7 @@ const host = '0.0.0.0'
 const port = 3000
 
 // GET Session with metadata
-app.get("/session/:clientID/:sessionID", (req, res) => {
+server.get("/session/:clientID/:sessionID", (req, res) => {
     const clientID = req.params.clientID  // String
     const sessionID = req.params.sessionID  // Int
     if (!clientID && !sessionID && clientID.length > 40 && sessionID > 0 && sessionID < Number.MAX_SAFE_INTEGER) { 
@@ -98,7 +98,48 @@ app.get("/session/:clientID/:sessionID", (req, res) => {
     })
 })
 
-app.listen(port, () => {
+// Status info on the server
+server.get('/status', (req, res) => {
+    const now = new Date()
+    res.set({
+      'Access-Control-Allow-Origin': "*",
+      'Access-Control-Allow-Methods': 'GET',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Content-Type': 'application/json',
+      'Cache-Control': 'public, max-age=60'
+    })
+  
+    // Prepare response
+    lastCall = new Date()
+    const uptime = Math.floor(process.uptime()) // seconds
+    const memory = process.memoryUsage() // bytes
+    const usage = process.cpuUsage()
+    const arch = process.arch // 'arm', 'ia32', or 'x64'
+    const production = process.env.NODE_ENV
+    const version = process.version
+    const time = Math.round((new Date()).getTime() / 1000)
+    const status = {
+      'name': 'Walkaboutserver',
+      'production': (production === 'production') ? true : false,
+      'node-version': version,
+      'arch': arch,
+      'platform': process.platform,
+      'uptime-seconds': numberFormatter(uptime),
+      'server-clock': time,
+      'memory-kilobytes': objectFormatter(memory, 1024),
+      'cpu-usage-seconds': objectFormatter(usage, 1000)
+    }
+    try {
+        let json = JSON.stringify(status)
+        res.set('Content-Length', Buffer.byteLength(json))
+        return res.send(json)
+    } catch (error) {
+      console.error('Status Parsing Error: ' + error)
+    }
+    return res.status(500).end()
+  })
+
+server.listen(port, () => {
     console.log('Started WalkAboutServer')
-    console.log(`Running on ${host}:${port}`)
+    console.log(`Running on ${host}:${port},  environment: ${process.env.NODE_ENV}`)
 })
