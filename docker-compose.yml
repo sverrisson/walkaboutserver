@@ -1,23 +1,25 @@
-version: '3'
+version: '3.0'
 services:
-  web:
-    image: sverrisson/walkaboutserver
-    depends_on:
-      - sql-server
-    links:
-      - sql-server
-    environment:
-      - NODE_ENV=production
-    expose:
-      - "3000"
-
-  sql-server:
+  db:
     image: mcr.microsoft.com/mssql/server:2017-latest
     environment:
         SA_PASSWORD: "Walkaboutserver2018"
         ACCEPT_EULA: "Y"
         MSSQL_PID=<your_product_id | edition_name> (default: Developer)
 
+  web:
+    image: sverrisson/walkaboutserver
+    depends_on:
+      - db
+    command: ["./wait-for-it.sh", "db:1433", "--", "python", "app.py"]
+
+    links:
+      - db
+    environment:
+      - NODE_ENV=production
+    expose:
+      - "3000"
+
 volumes:
-  sql-server:
+  db:
     driver: local
