@@ -10,7 +10,7 @@ const {numberFormatter, objectFormatter} = require('./src/numberFormatter.js')
 const config = {
     userName: 'sverrisson',
     password: 'Walkaboutserver2018',
-    server: 'walkaboutserver',
+    server: 'db',
     options: {
         database: 'SampleDB'
     }

@@ -1,4 +1,4 @@
-version: '3.0'
+version: '2'
 services:
   db:
     image: mcr.microsoft.com/mssql/server:2017-latest
@@ -10,11 +10,10 @@ services:
   web:
     image: sverrisson/walkaboutserver
     depends_on:
-      - db
+      - "db"
     command: ["./wait-for-it.sh", "db:1433", "--", "python", "app.py"]
-
     links:
-      - db
+      - "db"
     environment:
       - NODE_ENV=production
     expose:
