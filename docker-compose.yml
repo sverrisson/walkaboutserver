@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
   web:
     image: sverrisson/walkaboutserver
@@ -13,8 +13,10 @@ services:
 
   sql-server:
     image: mcr.microsoft.com/mssql/server:2017-latest
-    volumes:
-      - server:2017-latest
+    environment:
+        SA_PASSWORD: "Walkaboutserver2018"
+        ACCEPT_EULA: "Y"
+        MSSQL_PID=<your_product_id | edition_name> (default: Developer)
 
 volumes:
   sql-server:

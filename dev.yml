@@ -1,23 +1,23 @@
-version: '2'
+version: '3'
 services:
   web:
-    image: sverrisson/image-server:latest
+    image: sverrisson/walkaboutserver
     depends_on:
-      - redis
+      - sql-server
     links:
-      - redis
+      - sql-server
     environment:
       - NODE_ENV=production
-    ports:
-      - "3000:3000"
-    labels:
-      io.rancher.container.pull_image: always
+    expose:
+      - "3000"
 
-  redis:
-    image: redis:latest
-    volumes:
-      - redis:/var/lib/redis/data
+  sql-server:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    environment:
+        SA_PASSWORD: "Walkaboutserver2018"
+        ACCEPT_EULA: "Y"
+        MSSQL_PID=<your_product_id | edition_name> (default: Developer)
 
 volumes:
-  redis:
+  sql-server:
     driver: local

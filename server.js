@@ -10,7 +10,7 @@ const helmet = require('helmet')
 //TODO: Store in an .env file and not shown in repo, but included here for the demo
 const config = {
     userName: 'sverrisson',
-    password: 'walkaboutserver2018',
+    password: 'Walkaboutserver2018',
     server: 'walkaboutserver',
     options: {
         database: 'SampleDB'
@@ -103,6 +103,5 @@ app.get("/session/:clientID/:sessionID", (req, res) => {
 
 app.listen(port, () => {
     console.log('Started WalkAboutServer')
-    startSQL()
     console.log(`Running on ${host}:${port}`)
 })
