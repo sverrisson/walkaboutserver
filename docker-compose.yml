@@ -10,13 +10,11 @@ services:
       - NODE_ENV=production
     expose:
       - "3000"
-    labels:
-      io.rancher.container.pull_image: always
 
   sql-server:
     image: mcr.microsoft.com/mssql/server:2017-latest
     volumes:
-      - redis-cache:/var/lib/redis-cache/data
+      - server:2017-latest
 
 volumes:
   sql-server:

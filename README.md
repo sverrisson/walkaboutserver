@@ -2,21 +2,21 @@
 ## Express with SQL Server backend - REST API Service for ÖW Walkabout App.
 <br />
 
-## Sækja mynd
-http://image-server.spilari.ruv.is/:key
+## Fetch a session number 123
+http://localhost/session/walk/123
 
-Þar sem key er path á myndaserver og er myndin vistuð undir þeim lykli.
+Where id is a string and session is an int.
 
 ## Docker build and run locally
 ```bash
-$ docker build -t sverrisson/image-server .
+$ docker build -t sverrisson/walkaboutserver .
 $ docker-compose -f dev.yml up
 $ docker-compose -f dev.yml down
 ```
 
 ### Skipanir
 ```bash
-$ docker run -e "NODE_ENV=production" -p 49160:3000 -d sverrisson/image-server
+$ docker run -e "NODE_ENV=production" -p 49160:3000 -d sverrisson/walkaboutserver
 $ docker ps
 $ docker logs < container id >
 ```
@@ -26,7 +26,7 @@ $ docker logs < container id >
 $ docker exec -it <container id> /bin/bash
 ```
 
-## Docker build and push
+## Deployment - Docker build and push
 ```bash
 $ docker login gitlab.ruv.is:5001
 $ docker build -t gitlab.ruv.is:5001/ruv-ohf/image-server . && docker push gitlab.ruv.is:5001/ruv-ohf/image-server
