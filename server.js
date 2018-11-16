@@ -2,9 +2,10 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const Connection = require('tedious').Connection
 const Request = require('tedious').Request
+const TYPES = require('tedious').TYPES
 const fetch = require('node-fetch')
 const helmet = require('helmet')
-const {numberFormatter, objectFormatter} = require('./src/numberFormatter.js')
+const { numberFormatter, objectFormatter } = require('./src/numberFormatter.js')
 
 //TODO: Store in an .env file and not shown in repo, but included here for the demo
 const sqlConfig = {
@@ -12,7 +13,7 @@ const sqlConfig = {
     password: 'Walkaboutserver2018',
     server: 'db',
     options: {
-        // database: 'SampleDB',
+        // database: 'Walkabout',
         encrypt: true
     }
     // When you connect to Azure SQL Database, you need these next options.
@@ -68,7 +69,7 @@ const port = 3000
 server.get("/session/:clientID/:sessionID", (req, res) => {
     const clientID = req.params.clientID  // String
     const sessionID = req.params.sessionID  // Int
-    if (!clientID && !sessionID && clientID.length > 40 && sessionID > 0 && sessionID < Number.MAX_SAFE_INTEGER) { 
+    if (!clientID && !sessionID && clientID.length === 36 && sessionID > 0 && sessionID < Number.MAX_SAFE_INTEGER) {
         return res.status(400).send
     }
     console.log("clientID", clientID)
@@ -104,13 +105,13 @@ server.get("/session/:clientID/:sessionID", (req, res) => {
 server.get('/status', (req, res) => {
     const now = new Date()
     res.set({
-      'Access-Control-Allow-Origin': "*",
-      'Access-Control-Allow-Methods': 'GET',
-      'Access-Control-Allow-Headers': 'Content-Type',
-      'Content-Type': 'application/json',
-      'Cache-Control': 'public, max-age=60'
+        'Access-Control-Allow-Origin': "*",
+        'Access-Control-Allow-Methods': 'GET',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Content-Type': 'application/json',
+        'Cache-Control': 'public, max-age=60'
     })
-  
+
     // Prepare response
     lastCall = new Date()
     const uptime = Math.floor(process.uptime()) // seconds
@@ -121,25 +122,25 @@ server.get('/status', (req, res) => {
     const version = process.version
     const time = Math.round((new Date()).getTime() / 1000)
     const status = {
-      'name': 'Walkaboutserver',
-      'production': (production === 'production') ? true : false,
-      'node-version': version,
-      'arch': arch,
-      'platform': process.platform,
-      'uptime-seconds': numberFormatter(uptime),
-      'server-clock': time,
-      'memory-kilobytes': objectFormatter(memory, 1024),
-      'cpu-usage-seconds': objectFormatter(usage, 1000)
+        'name': 'Walkaboutserver',
+        'production': (production === 'production') ? true : false,
+        'node-version': version,
+        'arch': arch,
+        'platform': process.platform,
+        'uptime-seconds': numberFormatter(uptime),
+        'server-clock': time,
+        'memory-kilobytes': objectFormatter(memory, 1024),
+        'cpu-usage-seconds': objectFormatter(usage, 1000)
     }
     try {
         let json = JSON.stringify(status)
         res.set('Content-Length', Buffer.byteLength(json))
         return res.send(json)
     } catch (error) {
-      console.error('Status Parsing Error: ' + error)
+        console.error('Status Parsing Error: ' + error)
     }
     return res.status(500).end()
-  })
+})
 
 server.listen(port, () => {
     console.log('Started WalkAboutServer')

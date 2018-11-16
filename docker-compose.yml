@@ -7,7 +7,7 @@ services:
         ACCEPT_EULA: "Y"
         MSSQL_PID=<your_product_id | edition_name> (default: Developer)
     healthcheck:
-      test: sqlcmd -S db1.internal.prod.example.com -U SA -P 'Walkaboutserver2018' -Q 'select 1'
+      test: sqlcmd -U SA -P 'Walkaboutserver2018' -Q 'SELECT @@VERSION1'
 
   web:
     image: sverrisson/walkaboutserver
