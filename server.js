@@ -7,19 +7,21 @@ const helmet = require('helmet')
 const {numberFormatter, objectFormatter} = require('./src/numberFormatter.js')
 
 //TODO: Store in an .env file and not shown in repo, but included here for the demo
-const config = {
-    userName: 'sverrisson',
+const sqlConfig = {
+    userName: 'sa',
     password: 'Walkaboutserver2018',
     server: 'db',
-    options: {
-        database: 'SampleDB'
-    }
+    // options: {
+    //     database: 'SampleDB',
+    //     // encrypt: true
+    // }
     // When you connect to Azure SQL Database, you need these next options.
     //options: {encrypt: true, database: 'yourDatabase'}
 }
+console.log(`sqlConfig: ${sqlConfig.server}`)
 
 // sql-server setup
-const connection = new Connection(config)
+const connection = new Connection(sqlConfig)
 connection.on('connect', function (err) {
     if (err) {
         console.error(err)

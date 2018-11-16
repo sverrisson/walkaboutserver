@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
   db:
     image: mcr.microsoft.com/mssql/server:2017-latest
@@ -6,18 +6,21 @@ services:
         SA_PASSWORD: "Walkaboutserver2018"
         ACCEPT_EULA: "Y"
         MSSQL_PID=<your_product_id | edition_name> (default: Developer)
+    healthcheck:
+      test: sqlcmd -S db1.internal.prod.example.com -U SA -P 'Walkaboutserver2018' -Q 'select 1'
 
   web:
     image: sverrisson/walkaboutserver
     depends_on:
-      - "db"
-    command: ["./wait-for-it.sh", "db:1433", "--", "python", "app.py"]
+      - db
+    command:
+      - ./my_sleep.sh
     links:
       - "db"
     environment:
       - NODE_ENV=production
-    expose:
-      - "3000"
+    ports:
+      - "3000:3000"
 
 volumes:
   db:
