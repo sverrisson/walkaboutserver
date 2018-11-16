@@ -14,7 +14,7 @@ services:
     depends_on:
       - db
     command:
-      - ./my_sleep.sh
+      - ./waiting.sh # If the db is slow to start, then increase time here
     links:
       - "db"
     environment:

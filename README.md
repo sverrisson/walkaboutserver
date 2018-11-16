@@ -10,10 +10,10 @@ Where id is a string and session is an int.
 ## Docker build and run locally
 ```bash
 $ docker build -t sverrisson/walkaboutserver .
-$ docker-compose -f up
+$ docker-compose up
 
 # And then to shut-it down
-$ docker-compose -f down
+$ docker-compose down
 ```
 
 ### Skipanir
