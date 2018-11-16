@@ -11,10 +11,10 @@ const sqlConfig = {
     userName: 'sa',
     password: 'Walkaboutserver2018',
     server: 'db',
-    // options: {
-    //     database: 'SampleDB',
-    //     // encrypt: true
-    // }
+    options: {
+        // database: 'SampleDB',
+        encrypt: true
+    }
     // When you connect to Azure SQL Database, you need these next options.
     //options: {encrypt: true, database: 'yourDatabase'}
 }

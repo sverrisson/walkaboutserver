@@ -2,8 +2,6 @@
 FROM node:11.1
 
 # Working directory for application
-# RUN mkdir -p /usr/src/app
-# WORKDIR /usr/src/app
 RUN mkdir -p /server
 COPY . /server
 WORKDIR /server
