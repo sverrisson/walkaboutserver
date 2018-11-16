@@ -1,5 +1,4 @@
 const express = require('express')
-const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const Connection = require('tedious').Connection
 const Request = require('tedious').Request
@@ -59,8 +58,6 @@ app.use(helmet())
 const urlParser = bodyParser.urlencoded({ extended: false })
 // parse application/json
 const jsonParser = bodyParser.json()
-// Time and response logger
-app.use(morgan('dev'))
 
 const host = '0.0.0.0'
 const port = 3000
