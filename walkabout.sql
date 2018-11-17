@@ -1,17 +1,17 @@
 -- Walkabout
-CREATE DATABASE Walkabout;
-GO
+-- CREATE DATABASE Walkabout;
+-- GO
 
 CREATE SCHEMA Walkabout;
 GO
 
 -- CREATE DATABASE Walkabout;
-DROP TABLE IF EXISTS Walkabout.Client;
-GO
-DROP TABLE IF EXISTS Walkabout.Session;
-GO
-DROP TABLE IF EXISTS Walkabout.Metadata;
-GO
+-- DROP TABLE IF EXISTS Walkabout.Client;
+-- GO
+-- DROP TABLE IF EXISTS Walkabout.Session;
+-- GO
+-- DROP TABLE IF EXISTS Walkabout.Metadata;
+-- GO
 
 -- Table: Client
 CREATE TABLE Walkabout.Client

@@ -1,4 +1,0 @@
-{
-    "extends": "google",
-    "semi": [2, "always"]
-}
