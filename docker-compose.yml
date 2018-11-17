@@ -12,7 +12,7 @@ services:
       test: sqlcmd -U SA -P 'Walkaboutserver2018' -Q 'SELECT @@VERSION1'
 
   web:
-    image: sverrisson/walkaboutserver
+    image: walkaboutserver
     depends_on:
       - db
     command:

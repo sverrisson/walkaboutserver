@@ -9,7 +9,7 @@ Where id is a string and session is an int.
 
 ## Docker build and run locally
 ```bash
-$ docker build -t sverrisson/walkaboutserver .
+$ docker build -t walkaboutserver .
 $ docker-compose up
 
 # And then to shut-it down
@@ -18,7 +18,7 @@ $ docker-compose down
 
 ### Skipanir
 ```bash
-$ docker run -e "NODE_ENV=production" -p 49160:3000 -d sverrisson/walkaboutserver
+$ docker run -e "NODE_ENV=production" -p 49160:3000 -d walkaboutserver
 $ docker ps
 $ docker logs < container id >
 ```
@@ -28,7 +28,7 @@ $ docker logs < container id >
 $ docker exec -it <container id> /bin/bash
 ```
 
-## Deployment - Docker build and push
+## Example of a deployment - Docker build and push to a local Rancher server
 ```bash
 $ docker login gitlab.ruv.is:5001
 $ docker build -t gitlab.ruv.is:5001/ruv-ohf/image-server . && docker push gitlab.ruv.is:5001/ruv-ohf/image-server

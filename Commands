@@ -1,3 +1,39 @@
+
+
+// Get a Mac with SSD and 16+ GB Memory (necessary for Xcode, make sure to use a new machine with SSD and 16 GB Memory or the Docker build will take minutes)
+// Install Nodejs v11.1+ (npm comes with it)
+// Install Docker (includes Docker Compose): https://store.docker.com/editions/community/docker-ce-desktop-mac
+// Launch Docker and wait for it to start, 
+// Go to Preferences -> Advanced -> Memory and increase memory to 4 GB
+// Log into Docker
+// Install Docker-compose 
+// Verify in the Terminal that the following are installed by checking their versions:
+$ docker --version
+$ docker-compose --version
+$ node --version
+$ npm --version
+
+// Install git if not available
+// Open Terminal and run: 
+$ git clone 
+$ cd walkaboutserver 
+$ npm i
+$ docker build -t walkaboutserver .
+
+
+
+
+// Communicate with SQL Server
+
+// a) Download: https://docs.microsoft.com/is-is/sql/azure-data-studio/download?view=sql-server-2017
+
+// b) Terminal:
+
+
+
+
+
+
 // See images
 docker ps -a
 
@@ -12,4 +48,6 @@ docker exec -it 3e /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'Walkabouts
 
 // Verify if tables were created
 SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE='BASE TABLE'
+
+
 
