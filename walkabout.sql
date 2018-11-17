@@ -1,47 +1,33 @@
--- Walkabout
--- CREATE DATABASE Walkabout;
+-- Walkabout Tables
 
--- CREATE DATABASE Walkabout;
--- DROP TABLE IF EXISTS Walkabout.Client;
--- GO
--- DROP TABLE IF EXISTS Walkabout.Session;
--- GO
--- DROP TABLE IF EXISTS Walkabout.Metadata;
--- GO
-
-CREATE SCHEMA Walkabout
-
--- Table: Client
 CREATE TABLE Client
 (
   ID char(36) NOT NULL PRIMARY KEY,
-  At datetime,
-  Name varchar(45),
-  Type varchar(30)
-)
+  At datetime NOT NULL,
+  Name varchar(50) NOT NULL,
+  Type varchar(50) NOT NULL
+);
+GO
 
--- Table: Session
 CREATE TABLE MSession
 (
   ID int NOT NULL PRIMARY KEY,
-  ClientID CHAR(36) NOT NULL REFERENCES Client(ID),
-  At datetime,
-  Name varchar(55),
+  ClientID char(36) NOT NULL,
+  At datetime NOT NULL,
+  Name varchar(100),
   Description text,
   FOREIGN KEY (ClientID) REFERENCES Client(ID)
-)
+);
+GO
 
--- Table: Metadata
 CREATE TABLE Metadata
 (
   ID int NOT NULL PRIMARY KEY,
-  SessionID int NOT NULL REFERENCES Session(ID),
-  At datetime,
-  AccX int,
-  AccY int,
-  AccZ int,
+  SessionID int NOT NULL,
+  At datetime NOT NULL,
+  AccX int NOT NULL,
+  AccY int NOT NULL,
+  AccZ int NOT NULL,
   FOREIGN KEY (SessionID) REFERENCES MSession(ID)
-)
-
+);
 GO
-

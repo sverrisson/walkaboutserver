@@ -38,10 +38,10 @@ $ docker build -t walkaboutserver .
 docker ps -a
 
 // Copy schema to SQL Server image, where 3e is image
-docker cp ./cleanSQL.sql 3e:/  
+docker cp ./walkabout.sql 3e:/  
 
 // Import the schema file to create tables and setup the database
-docker exec -it 3e /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'Walkaboutserver2018'  -i ./cleanSQL.sql
+docker exec -it 3e /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'Walkaboutserver2018'  -i ./walkabout.sql
 
 // Enter client
 docker exec -it 3e /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'Walkaboutserver2018'
