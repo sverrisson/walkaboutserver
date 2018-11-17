@@ -9,13 +9,14 @@ CREATE TABLE Client
 );
 GO
 
-CREATE TABLE Session
+CREATE TABLE MSession
 (
   ID int NOT NULL PRIMARY KEY,
   ClientID char(36) NOT NULL,
   At datetime NOT NULL,
   Name varchar(100),
-  Description text
+  Description text,
+  FOREIGN KEY (ClientID) REFERENCES Client(ID)
 );
 GO
 
@@ -26,6 +27,7 @@ CREATE TABLE Metadata
   At datetime NOT NULL,
   AccX int NOT NULL,
   AccY int NOT NULL,
-  AccZ int NOT NULL
+  AccZ int NOT NULL,
+  FOREIGN KEY (SessionID) REFERENCES MSession(ID)
 );
 GO

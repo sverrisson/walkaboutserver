@@ -10,7 +10,7 @@ Where id is a string and session is an int.
 ## Docker build and run locally
 ```bash
 $ docker build -t walkaboutserver .
-$ docker-compose up
+$ docker-compose up -d
 
 # And then to shut-it down
 $ docker-compose down
@@ -19,7 +19,7 @@ $ docker-compose down
 ### Skipanir
 ```bash
 $ docker run -e "NODE_ENV=production" -p 49160:3000 -d walkaboutserver
-$ docker ps
+$ docker ps -a
 $ docker logs < container id >
 ```
 

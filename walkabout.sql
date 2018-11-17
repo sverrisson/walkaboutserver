@@ -12,7 +12,7 @@
 CREATE SCHEMA Walkabout
 
 -- Table: Client
-CREATE TABLE Walkabout.Client
+CREATE TABLE Client
 (
   ID char(36) NOT NULL PRIMARY KEY,
   At datetime,
@@ -21,7 +21,7 @@ CREATE TABLE Walkabout.Client
 )
 
 -- Table: Session
-CREATE TABLE Walkabout.MSession
+CREATE TABLE MSession
 (
   ID int NOT NULL PRIMARY KEY,
   ClientID CHAR(36) NOT NULL REFERENCES Client(ID),
@@ -32,7 +32,7 @@ CREATE TABLE Walkabout.MSession
 )
 
 -- Table: Metadata
-CREATE TABLE Walkabout.Metadata
+CREATE TABLE Metadata
 (
   ID int NOT NULL PRIMARY KEY,
   SessionID int NOT NULL REFERENCES Session(ID),
