@@ -72,6 +72,10 @@ SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE='BASE TABLE'
 ### 5) Run the app on an iPhone (acc data is not available in the simulator):
 * In Xcode open the folder `walkabout`.
 * Connect an iPhone and build the app with Xcode: `Product -> Run`
+* Goto `Settings` on the phone and scroll down to `ÖW App`, select it and set the `Server domain:`to the **value** from the computer above with port 3000 added, i.e.:
+```bash
+Server domain: http://10.0.1.4:3000   # where ip address if from above
+```
 * Create a new `Session` with the `+` button and give it a name and description.
 * In Session Data, hit `Start Recording`.
 * Shake the phone and see the gravity lines an bottom of the screen.
