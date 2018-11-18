@@ -32,3 +32,4 @@ CREATE TABLE Metadata
   FOREIGN KEY (SessionID) REFERENCES MSession(ID)
 );
 GO
+
