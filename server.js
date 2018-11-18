@@ -4,15 +4,18 @@ const Connection = require('tedious').Connection;
 const Request = require('tedious').Request;
 const TYPES = require('tedious').TYPES;
 const fetch = require('node-fetch');
-const helmet = require('helmet');
+// const helmet = require('helmet');
 const { numberFormatter, objectFormatter } = require('./src/numberFormatter.js');
 const fs = require('fs');
+const xss = require('xss');
+const validator = require('validator');
+const api = require('./src/api.js')
 
 // TODO: Store in an .env file and not shown in repo, but included here for the demo
 const sqlConfig = {
     userName: 'sa',
     password: 'Walkaboutserver2018',
-    server: 'db',
+    server: '127.0.0.1', //'db',
     options: {
         database: 'tempdb',
         encrypt: true,
@@ -32,7 +35,7 @@ function createDatabase() {
         "CREATE SCHEMA Walkabout",
         "CREATE TABLE Walkabout.Client(ID char(36) NOT NULL PRIMARY KEY, At datetime, Name varchar(45), Type varchar(30))",
     ]
-    setupSQLSchema.forEach( (sql, index) => {
+    setupSQLSchema.forEach((sql, index) => {
         request = new Request(sql), ((err) => {
             if (err) {
                 console.error(err);
@@ -67,91 +70,62 @@ function executeStatement() {
     connection.execSql(request);
 }
 
-const server = express();
-server.use(helmet());
-// parse application/x-www-form-urlencoded
-const urlParser = bodyParser.urlencoded({ extended: false });
-// parse application/json
-const jsonParser = bodyParser.json();
+function create({ client, session, data } = {}, callback) {
+    console.log("client", client);
+    console.log("session", session);
+    const validation = validateNote({ client, session, data });
 
-const host = '0.0.0.0';
-const port = 3000;
-
-// GET Session with metadata
-server.get('/session/:clientID/:sessionID', (req, res) => {
-    const clientID = req.params.clientID; // String
-    const sessionID = req.params.sessionID; // Int
-    if (!clientID && !sessionID && clientID.length === 36 && sessionID > 0 && sessionID < Number.MAX_SAFE_INTEGER) {
-        return res.status(400).send;
-    }
-    console.log('clientID', clientID);
-    console.log('sessionID', sessionID);
-
-    res.set({
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET',
-        'Cache-Control': 'public, max-age=60',
-    });
-
-    const retrieved = redisClient.get(key, (err, buffer) => {
-        // console.log(`Retrieved from Redis: ${buffer? 'Jeps' : 'Ónei'}`)
-        if (buffer) {
-            // console.log('Buffer', buffer.length)
-            return res.send(buffer);
-        }
-        // console.log('Ekki til lykill: ' + key)
-        sækjaMynd(key, (mynd) => {
-            // console.log('callback')
-            if (mynd) {
-                return res.send(mynd);
-            } else {
-                return res.status(404).send;
-            }
+    if (validation.length > 0) {
+        callback({
+            success: false,
+            validation,
+            item: null,
         });
-    });
-});
-
-// Status info on the server
-server.get('/status', (req, res) => {
-    const now = new Date();
-    res.set({
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET',
-        'Access-Control-Allow-Headers': 'Content-Type',
-        'Content-Type': 'application/json',
-        'Cache-Control': 'public, max-age=60',
-    });
-
-    // Prepare response
-    lastCall = new Date();
-    const uptime = Math.floor(process.uptime()); // seconds
-    const memory = process.memoryUsage(); // bytes
-    const usage = process.cpuUsage();
-    const arch = process.arch; // 'arm', 'ia32', or 'x64'
-    const production = process.env.NODE_ENV;
-    const version = process.version;
-    const time = Math.round((new Date()).getTime() / 1000);
-    const status = {
-        name: 'Walkaboutserver',
-        production: (production === 'production'),
-        'node-version': version,
-        arch,
-        platform: process.platform,
-        'uptime-seconds': numberFormatter(uptime),
-        'server-clock': time,
-        'memory-kilobytes': objectFormatter(memory, 1024),
-        'cpu-usage-seconds': objectFormatter(usage, 1000),
-    };
-    try {
-        const json = JSON.stringify(status);
-        res.set('Content-Length', Buffer.byteLength(json));
-        return res.send(json);
-    } catch (error) {
-        console.error(`Status Parsing Error: ${error}`);
     }
-    return res.status(500).end();
+
+    const cleanClient = xss(client);
+    const cleanSession = xss(session);
+    const cleanData = xss(data);
+
+    // const sqlQuery = 'INSERT INTO notes(title, text, datetime) VALUES($1, $2, $3) RETURNING *';
+    // const values = [cleanTitle, cleanText, cleanDatetime];
+
+    // const result = await query(sqlQuery, values);
+
+    callback({
+        success: true,
+        validation: [],
+        item: result.rows[0],
+    });
+}
+
+const server = express();
+server.use(express.json());
+server.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PATCH');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    next();
 });
+server.use('/', api);
+
+function notFoundHandler(req, res, next) { // eslint-disable-line
+    res.status(404).json({ error: 'Not found' });
+}
+
+function errorHandler(err, req, res, next) { // eslint-disable-line
+    console.error(err);
+    if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
+        return res.status(400).json({ error: 'Invalid json' });
+    }
+    return res.status(500).json({ error: 'Internal server error' });
+}
+server.use(notFoundHandler);
+server.use(errorHandler);
+// server.use(helmet());
+
+const host = '127.0.0.1';
+const port = 3000;
 
 server.listen(port, () => {
     console.log('Started WalkAboutServer');

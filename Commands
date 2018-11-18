@@ -25,13 +25,9 @@ $ docker build -t walkaboutserver .
 
 // Communicate with SQL Server
 
-// a) Download: https://docs.microsoft.com/is-is/sql/azure-data-studio/download?view=sql-server-2017
+// a) Download and install Azure Data Studio: https://docs.microsoft.com/is-is/sql/azure-data-studio/download?view=sql-server-2017
 
 // b) Terminal:
-
-
-
-
 
 
 // See images

@@ -5,7 +5,8 @@ CREATE TABLE Client
   ID char(36) NOT NULL PRIMARY KEY,
   At datetime NOT NULL,
   Name varchar(50) NOT NULL,
-  Type varchar(50) NOT NULL
+  Type varchar(50) NOT NULL,
+  SystemVersion VARCHAR(30)
 );
 GO
 
