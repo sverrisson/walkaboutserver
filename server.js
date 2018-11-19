@@ -39,7 +39,7 @@ function insert({ id, at, name, type, systemVersion }, callback) {
     const cleanType = xss(type);
     const cleanVersion = xss(systemVersion);
 
-    request = new Request('INSERT INTO dbo.Client (ID, At, Name, Type, SystemVersion) VALUES (@ID, @At, @Name, @Type, @SystemVersion);',
+    request = new Request('INSERT INTO Client (ID, At, Name, Type, SystemVersion) VALUES (@ID, @At, @Name, @Type, @SystemVersion);',
         function (err, rowCount, rows) {
             if (err) {
                 console.error("Insert into Session Table error", err);
@@ -96,7 +96,7 @@ server.post("/session", jsonParser, (req, res) => {
         if (!result.success) {
             return res.status(400).json({'Error':'Database error'});
         }
-        return res.status(201).json({'Rows stored': rowCount});
+        return res.status(201).json({'Rows stored': result.rowCount});
     });
 });
 
