@@ -85,6 +85,10 @@ Server domain: http://10.0.1.11:3000   # where ip address if from above
 
 ####  Hopefully you have managed to build all successfully and send the data to the SQL server.
 
+### 7) Delete data on the SQL Server in the Client table to prevent collision if saving again.
+* Download and install Azure Data Studio: https://docs.microsoft.com/is-is/sql/azure-data-studio/download?view=sql-server-2017
+* Connect to the database running. The tables are under database `master`. Loginto: `localhost` user: `SA`, password: `Walkaboutserver2018`
+
 ### 6) Cleanup and shut down:
 ```bash
 $ docker-compose down
