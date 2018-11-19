@@ -11,7 +11,7 @@ const xss = require('xss');
 const sqlConfig = {
     userName: 'sa',
     password: 'Walkaboutserver2018',
-    server: '127.0.0.1', //'db',
+    server: 'db', //'127.0.0.1',
     options: {
         database: 'tempdb',
         encrypt: true,
