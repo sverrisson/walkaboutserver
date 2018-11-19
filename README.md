@@ -8,7 +8,7 @@
 * Xcode from Apple Store (used for the App)
 * git
 * Nodejs v11.1+ (npm comes with it). 
-* Docker for mac (includes Docker Compose): https://store.docker.com/editions/community/docker-ce-desktop-mac
+* Docker for mac (recent version): https://store.docker.com/editions/community/docker-ce-desktop-mac
 
 
 ### 2) Verify installations and fetch projects:
@@ -49,32 +49,34 @@ $ docker-compose up
 $ docker ps -a 
 ```
 
-* Copy the table schema to the SQL Server container, note: that `3e` are the first two letters from the container id in the step above and yours will be different:
+* Copy the table schema to the SQL Server container, note: that `sqlserver` is the  container name in the step above:
 ```bash
-$ docker cp ./walkabout.sql 3e:/  
+$ docker cp ./walkabout.sql sqlserver:/  
 ```
 
-* Import the table schema to the SQL Server running, note: that `3e` are the first two letters from the container id in the step above and yours will be different:
+* Import the table schema to the SQL Server running:
 ```bash
-$ docker exec -it 3e /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'Walkaboutserver2018'  -i ./walkabout.sql
+$ docker exec -it sqlserver /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'Walkaboutserver2018'  -i ./walkabout.sql
 ```
 
-* You can enter the SQL client, note: that `3e` are the first two letters from the container id:
+* You can enter the SQL Server:
 ```bash
-$ docker exec -it 3e /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'Walkaboutserver2018'
+$ docker exec -it sqlserver /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'Walkaboutserver2018'
 ```
 
 * Now inside the SQL Server - verify if the tables were created
 ```sql
-SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE='BASE TABLE'
+SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE='BASE TABLE';
+GO
 ```
 
 ### 5) Run the app on an iPhone (acc data is not available in the simulator):
 * In Xcode open the folder `walkabout`.
+* Select the `Walkabout` app in the selection list next to the device selection at top of window.
 * Connect an iPhone and build the app with Xcode: `Product -> Run`
-* Goto `Settings` on the phone and scroll down to `ÖW App`, select it and set the `Server domain:`to the **value** from the computer above with port 3000 added, i.e.:
+* Goto `Settings` on the phone and scroll down to `ÖW App`, select it and set the `Server domain:`to the **ip value** from the step above with port 3000 added, i.e.:
 ```bash
-Server domain: http://10.0.1.4:3000   # where ip address if from above
+Server domain: http://10.0.1.11:3000   # where ip address if from above
 ```
 * Create a new `Session` with the `+` button and give it a name and description.
 * In Session Data, hit `Start Recording`.
