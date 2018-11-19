@@ -72,6 +72,7 @@ GO
 
 ### 5) Run the app on an iPhone (acc data is not available in the simulator):
 * In Xcode open the folder `walkabout`.
+* Run to build the framework: `Product -> Run`
 * Select the `Walkabout` app in the selection list next to the device selection at top of window.
 * Connect an iPhone and build the app with Xcode: `Product -> Run`
 * Goto `Settings` on the phone and scroll down to `ÖW App`, select it and set the `Server domain:`to the **ip value** from the step above with port 3000 added, i.e.:
