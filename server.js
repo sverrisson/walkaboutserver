@@ -13,7 +13,7 @@ const sqlConfig = {
     password: 'Walkaboutserver2018',
     server: 'db', //'127.0.0.1',
     options: {
-        database: 'tempdb',
+        database: 'master',
         encrypt: true,
     },
 };
@@ -39,7 +39,7 @@ function insert({ id, at, name, type, systemVersion }, callback) {
     const cleanType = xss(type);
     const cleanVersion = xss(systemVersion);
 
-    request = new Request('INSERT INTO Client (ID, At, Name, Type, SystemVersion) VALUES (@ID, @At, @Name, @Type, @SystemVersion);',
+    request = new Request('INSERT INTO dbo.Client (ID, At, Name, Type, SystemVersion) VALUES (@ID, @At, @Name, @Type, @SystemVersion);',
         function (err, rowCount, rows) {
             if (err) {
                 console.error("Insert into Session Table error", err);
