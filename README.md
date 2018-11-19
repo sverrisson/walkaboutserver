@@ -31,9 +31,9 @@ $ cd walkaboutserver
 $ npm i
 ```
 
-* Get ipaddress of the computer, for the App to call:
+* Get ipaddress of the computer, for the App to call (change en0 to en1, enX if needed depending on connection type):
 ```bash
-$ ipconfig getifaddr en1
+$ ipconfig getifaddr en0
 ```
 
 * Build Docker image of the walkaboutserver:
@@ -43,7 +43,7 @@ $ docker-compose up
 ```
 
 ### 4) Setup the SQL Server table schema:
-* Open another Terminal window (Don't close the current running!).
+* Open another Terminal window (Don't close the currently running one!).
 * Get the container id for the SQL server, by listing the containers running:
 ```bash
 $ docker ps -a 
